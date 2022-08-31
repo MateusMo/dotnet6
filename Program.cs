@@ -1,6 +1,17 @@
+using Blog;
 using Blog.Data;
+using Blog.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+});
+
 builder
     .Services
     .AddControllers()
@@ -10,8 +21,16 @@ builder
         options.SuppressModelStateInvalidFilter = true;
     });
 builder.Services.AddDbContext<BlogDataContext>();
+
+builder.Services.AddTransient<TokenService>(); //sempre cria uma nova instância
+//builder.Services.AddScoped(); //cria uma instância por requisição
+//builder.Services.AddSingleton(); // cria uma instância por vez que a aplicação inicia
+
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
+
 
 app.Run();
