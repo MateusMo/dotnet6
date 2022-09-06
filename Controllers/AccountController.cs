@@ -4,6 +4,8 @@ using Blog.Models;
 using Blog.Services;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SecureIdentity.Password;
 
 namespace Blog.Controllers
 {
@@ -30,15 +32,63 @@ namespace Blog.Controllers
             {
                 Name = model.Name,
                 Email = model.Email,
-                Slug = model.Email.Replace("@", "-").Replace(".", "-");
+                Slug = model.Email.Replace("@", "-").Replace(".", "-")
+            };
+            var password = PasswordGenerator.Generate(25, true, false);
+            user.PasswordHash = PasswordHasher.Hash(password);
+
+            try
+            {
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                return Ok(new ResultViewModel<dynamic>(new
+                {
+                    user = user.Email,
+                    password
+                }));
             }
+            catch (DbUpdateException)
+            {
+                return StatusCode(400, new ResultViewModel<string>("Este email já está cadastrado"));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<string>("Falha interna do servidor"));
+            }
+
         }
 
-        [HttpPost("v1/login")]
-        public IActionResult Login()
+        [HttpPost("v1/accounts/login")]
+        public async Task<IActionResult> Login(
+            [FromServices]TokenService tokenService,
+            [FromBody]LoginViewModel model,
+            [FromServices]BlogDataContext context
+            )
         {
-            var token = _tokenService.GenerateToken(null);
-            return Ok(token);
+            if (!ModelState.IsValid)
+                return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
+
+            var user = await context
+                .Users
+                .AsNoTracking()
+                .Include(x => x.Roles)
+                .FirstOrDefaultAsync(x => x.Email == model.Email);
+
+            if (user == null)
+                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
+
+            if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
+                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
+
+            try
+            {
+                var token = tokenService.GenerateToken(user);
+                return Ok(new ResultViewModel<string>(token, null));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
+            }
         }
         
 
