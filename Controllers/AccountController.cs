@@ -3,23 +3,28 @@ using Blog.Extensions;
 using Blog.Models;
 using Blog.Services;
 using Blog.ViewModels;
+using Blog.ViewModels.Accounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
+using System.Text.RegularExpressions;
 
 namespace Blog.Controllers
 {
-    
+
     [ApiController]
     public class AccountController : ControllerBase 
     {
         private readonly TokenService _tokenService;
+        private readonly EmailService _emailService;
         private readonly BlogDataContext _context;
 
-        public AccountController(TokenService tokenService,BlogDataContext context)
+        public AccountController(TokenService tokenService,BlogDataContext context, EmailService emailService)
         {
             this._tokenService = tokenService;
             this._context = context;
+            _emailService = emailService;   
         }
 
         [HttpPost("v1/accounts")]
@@ -41,6 +46,9 @@ namespace Blog.Controllers
             {
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
+
+              //  _emailService.Send(user.Name, user.Email, "Bem vindo ao estudo no sabado", $"sua senha é {password}");
+
                 return Ok(new ResultViewModel<dynamic>(new
                 {
                     user = user.Email,
@@ -90,7 +98,6 @@ namespace Blog.Controllers
                 return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
             }
         }
-        
 
     }
 }

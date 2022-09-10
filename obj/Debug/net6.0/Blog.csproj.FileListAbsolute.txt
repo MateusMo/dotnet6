@@ -6,6 +6,7 @@ C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Blog.runtimeconfig.json
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Blog.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Blog.pdb
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Humanizer.dll
+C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -20,6 +21,7 @@ C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\SecureIdentity.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\System.Drawing.Common.dll
 C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
@@ -54,5 +56,3 @@ C:\Estudo\BaltaIo\Blog\obj\Debug\net6.0\refint\Blog.dll
 C:\Estudo\BaltaIo\Blog\obj\Debug\net6.0\Blog.pdb
 C:\Estudo\BaltaIo\Blog\obj\Debug\net6.0\Blog.genruntimeconfig.cache
 C:\Estudo\BaltaIo\Blog\obj\Debug\net6.0\ref\Blog.dll
-C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Estudo\BaltaIo\Blog\bin\Debug\net6.0\SecureIdentity.dll
